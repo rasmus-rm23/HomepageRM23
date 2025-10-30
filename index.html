@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RM23 ApS — Data Engineering That Delivers</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Variables / base styles
+       ========================= */
+    :root{
+      --blue-900:#0b3d91; /* deep */
+      --blue-700:#1565d8;
+      --blue-500:#2b8ef7;
+      --blue-300:#9fc9ff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.55);
+      --card-shadow: 0 8px 20px rgba(13,27,55,0.08);
+      --radius: 14px;
+      --container: 1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#0f1724;
+      background:linear-gradient(180deg,#f7fbff 0%, #fff 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    /* =========================
+       Navigation
+       ========================= */
+    .nav-wrap{
+      position:fixed;
+      top:0;left:0;right:0;
+      z-index:1000;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(0deg, rgba(255,255,255,0.65), rgba(255,255,255,0.6));
+      border-bottom: 1px solid rgba(20,40,80,0.04);
+    }
+    .nav{
+      max-width:var(--container);
+      margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;
+    }
+    .brand{
+      display:flex;gap:12px;align-items:center;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--blue-700),var(--blue-500));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 6px 18px rgba(43,142,247,0.18);
+    }
+    .brand h1{font-size:16px;margin:0}
+    .brand p{font-size:12px;margin:0;color:var(--muted)}
+
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{font-weight:600;font-size:14px;padding:8px 10px;border-radius:8px}
+    .nav-links a:hover{background:var(--glass)}
+
+    .cta{padding:8px 12px;background:var(--blue-500);color:#fff;border-radius:10px;font-weight:600}
+
+    /* Mobile menu button */
+    .menu-btn{display:none}
+
+    /* =========================
+       Hero
+       ========================= */
+    .hero{
+      padding-top:84px; /* give space for fixed nav */
+    }
+    .hero-inner{
+      max-width:var(--container);margin:32px auto;padding:48px 20px;display:flex;gap:40px;align-items:center;justify-content:space-between;
+    }
+    .hero-left{flex:1;min-width:260px}
+    .eyebrow{display:inline-block;background:linear-gradient(90deg,var(--blue-300),var(--blue-500));padding:6px 10px;border-radius:999px;color:var(--blue-900);font-weight:700;font-size:12px}
+    .h-title{font-size:34px;margin:14px 0 8px;line-height:1.05;color:var(--blue-900)}
+    .lead{color:var(--muted);font-size:16px;margin-bottom:18px}
+    .hero-actions{display:flex;gap:12px}
+
+    .hero-right{flex:1;display:flex;align-items:center;justify-content:center}
+    .hero-image{
+      width:100%;max-width:560px;border-radius:18px;overflow:hidden;box-shadow:var(--card-shadow);
+    }
+    .hero-image img{display:block;width:100%;height:auto}
+
+    /* =========================
+       Sections
+       ========================= */
+    .section{max-width:var(--container);margin:60px auto;padding:0 20px}
+    .section h2{font-size:22px;margin:0 0 8px}
+    .section p.lead{margin-top:0;margin-bottom:18px;color:var(--muted)}
+
+    /* Services grid */
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .card{background:white;border-radius:12px;padding:20px;box-shadow:var(--card-shadow);transform:translateY(12px);opacity:0;transition:transform .7s cubic-bezier(.2,.9,.2,1),opacity .7s ease}
+    .card.visible{transform:none;opacity:1}
+    .card .icon{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;background:linear-gradient(180deg,var(--blue-300),#e6f2ff);margin-bottom:12px}
+    .card h3{margin:0 0 8px}
+    .card p{margin:0;color:var(--muted)}
+
+    /* Cases grid (larger image cards) */
+    .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .case-card{border-radius:12px;overflow:hidden;background:white;box-shadow:var(--card-shadow);transform:translateY(18px);opacity:0;transition:transform .7s cubic-bezier(.2,.9,.2,1),opacity .7s ease}
+    .case-card.visible{transform:none;opacity:1}
+    .case-thumb{height:180px;object-fit:cover;width:100%}
+    .case-body{padding:14px}
+    .case-body h4{margin:0 0 8px}
+    .case-body p{margin:0;color:var(--muted);font-size:14px}
+
+    /* About layout */
+    .about-wrap{display:flex;gap:24px;align-items:center}
+    .about-text{flex:1}
+    .about-image{flex:1}
+    .about-image img{width:100%;border-radius:12px;box-shadow:var(--card-shadow)}
+
+    /* Contact */
+    .contact-form{max-width:720px}
+    .form-row{display:flex;gap:12px}
+    .form-row .field{flex:1}
+    .field input,.field textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(15,23,36,0.08);font-size:14px}
+    .field textarea{min-height:130px;resize:vertical}
+    .btn{display:inline-block;padding:12px 16px;border-radius:10px;background:var(--blue-700);color:white;font-weight:700}
+
+    /* Footer */
+    footer{margin-top:60px;padding:36px 20px;background:linear-gradient(180deg,#f6fbff,#ffffff);border-top:1px solid rgba(15,23,36,0.03)}
+    .footer-inner{max-width:var(--container);margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+    .socials{display:flex;gap:12px}
+    .socials a{width:40px;height:40px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:rgba(20,40,80,0.04)}
+
+    /* =========================
+       Responsive
+       ========================= */
+    @media (max-width:980px){
+      .hero-inner{flex-direction:column;gap:22px;padding:28px 20px}
+      .services-grid{grid-template-columns:repeat(2,1fr)}
+      .cases-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      .nav-links{display:none}
+      .menu-btn{display:block;background:transparent;border:0}
+      .brand h1{font-size:14px}
+      .hero-left .h-title{font-size:26px}
+      .services-grid{grid-template-columns:1fr}
+      .cases-grid{grid-template-columns:1fr}
+      .about-wrap{flex-direction:column}
+      .hero-image{max-width:100%}
+    }
+
+    /* smooth scrolling */
+    html{scroll-behavior:smooth}
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav-wrap" role="navigation" aria-label="Main">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">RM23</div>
+        <div>
+          <h1>RM23 ApS</h1>
+          <p>Data Engineering</p>
+        </div>
+      </div>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#cases">Cases</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="#contact">Get in touch</a>
+      </nav>
+
+      <button class="menu-btn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <main class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="eyebrow">RM23 ApS</div>
+        <h2 class="h-title">Data engineering that delivers insights &amp; impact</h2>
+        <p class="lead">RM23 designs and operates robust data platforms, pipelines, and analytics that help businesses make confident decisions. Scalable. Secure. Production-ready.</p>
+        <div class="hero-actions">
+          <a class="cta" href="#services">Our Services</a>
+          <a href="#cases" style="padding:8px 12px;border-radius:10px;border:1px solid rgba(15,23,36,0.06);font-weight:700">See Cases</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-image" aria-hidden="true">
+          <img src="img_index/city-4667143_1920.jpg" style="width:600px; height:auto;" alt="Example Image">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SERVICES -->
+  <section class="section" id="services" aria-labelledby="services-title">
+    <h2 id="services-title">Services</h2>
+    <p class="lead">Our core offerings — built around engineering reliability and rapid delivery.</p>
+
+    <div class="services-grid">
+      <article class="card" tabindex="0">
+        <div class="icon">DPA</div>
+        <h3>Data Platform Architecture</h3>
+        <p>Designing scalable data platforms on cloud or on-prem for reliable ingestion, storage, and governance.</p>
+      </article>
+
+      <article class="card" tabindex="0">
+        <div class="icon">ETL</div>
+        <h3>Data Pipelines &amp; ETL</h3>
+        <p>Production-grade ETL and ELT pipelines, monitoring, and automation for continuous data delivery.</p>
+      </article>
+
+      <article class="card" tabindex="0">
+        <div class="icon">ML</div>
+        <h3>Analytics &amp; ML Ops</h3>
+        <p>Model deployment, feature stores, and operationalized analytics to turn experiments into products.</p>
+      </article>
+
+      <article class="card" tabindex="0">
+        <div class="icon">SEC</div>
+        <h3>Data Governance &amp; Security</h3>
+        <p>Policies, access controls, and observability to ensure data is trusted, discoverable, and protected.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section class="section" id="cases" aria-labelledby="cases-title">
+    <h2 id="cases-title">Selected Cases</h2>
+    <p class="lead">Short highlights from projects we've completed. Replace images and copy with real content.</p>
+
+    <div class="cases-grid">
+      <div class="case-card">
+        <img class="case-thumb" src="img_index/ms_fabric.png" alt="Case study MS Fabric">
+        <div class="case-body">
+          <h4>Microsoft Fabric</h4>
+          <p>Built data flows in Fabric. From data import from multiple sources over ETL and semantic models to reporting in Power BI.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <img class="case-thumb" src="img_index/sql_logo.png" alt="Case study 2 SQL">
+        <div class="case-body">
+          <h4>SQL</h4>
+          <p>Data consumption and modelling in SQL databases using dimensional modelling.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <img class="case-thumb" src="img_index/ml_logo.png" alt="Case study 3 ML">
+        <div class="case-body">
+          <h4>Machine Learning</h4>
+          <p>Development of machine learning models deployed into practical use.</p>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <img class="case-thumb" src="img_index/python_logo.png" alt="Case study 3 Python">
+        <div class="case-body">
+          <h4>Python</h4>
+          <p>Custom made python data platform for cheap and easy start and prepared for later migration to e.g. cloud.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about" aria-labelledby="about-title">
+    <h2 id="about-title">About RM23 ApS</h2>
+    <p class="lead">We are a one man army. A data engineer and data practitioner delivering dependable data infrastructure and analytics.</p>
+
+    <div class="about-wrap">
+      <div class="about-text">
+        <p>Founded to bridge the gap between experiments and production, RM23 ApS helps organizations adopt modern data engineering practices. We emphasize observability, automation, and clear documentation so your data products last.</p>
+        <ul>
+          <li>Insight in business processes</li>
+          <li>Experienced in cloud-native data platforms and on-premises SQL databases</li>
+          <li>Strong focus on testing, CI/CD, and monitoring</li>
+          <li>Practical approach to MLOps and analytics</li>
+        </ul>
+      </div>
+      <div class="about-image">
+        <img src="img_index/hand_shake.jpg" style="width:300px; height:auto;" alt="Hand shake">
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact</h2>
+    <p class="lead">Reach out — we usually reply within a few business days.</p>
+  	<p> Send an <a href="mailto:rlm@rm23.dk"><u>e-mail</u></a> or call (+45 2677 1632)</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>&copy; <span id="year"></span> RM23 ApS — All rights reserved</div>
+      <div class="rm23-address">
+        RM23 Aps <br>
+        Nøddevej 3 | DK-8260 Viby J. | Denmark <br>
+        E-mail: <a href="mailto:rlm@rm23.dk">rlm@rm23.dk</a> | Phone: +45 2677 1632 <br>
+        CVR / VAT no.: 44030063
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // insert current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple IntersectionObserver to animate elements as they scroll into view
+    (function(){
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add('visible');
+            // optional: unobserve to avoid toggling off when scrolled out
+            observer.unobserve(entry.target);
+          }
+        });
+      },{threshold:0.12});
+
+      // observe all cards and case-cards
+      document.querySelectorAll('.card, .case-card').forEach(el=>observer.observe(el));
+    })();
+
+    // Mobile menu toggle (very small and simple)
+    (function(){
+      const btn = document.querySelector('.menu-btn');
+      const nav = document.querySelector('.nav-links');
+      if(!btn) return;
+      btn.addEventListener('click', ()=>{
+        if(nav.style.display === 'flex'){
+          nav.style.display = '';
+        } else {
+          nav.style.display = 'flex';
+          nav.style.flexDirection = 'column';
+          nav.style.position = 'absolute';
+          nav.style.top = '64px';
+          nav.style.right = '18px';
+          nav.style.background = 'white';
+          nav.style.padding = '12px';
+          nav.style.borderRadius = '10px';
+          nav.style.boxShadow = '0 6px 22px rgba(13,27,55,0.08)';
+        }
+      });
+
+      // close menu when clicking a link (mobile)
+      nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+        if(window.innerWidth <= 640){nav.style.display='';}
+      }));
+    })();
+
+    // Small accessibility enhancement: focus visible styles for keyboard users
+    (function(){
+      const style = document.createElement('style');
+      style.textContent = ':focus{outline:3px solid rgba(43,142,247,0.18);outline-offset:2px}';
+      document.head.appendChild(style);
+    })();
+
+  </script>
+</body>
+</html>
