@@ -111,7 +111,8 @@
     .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .case-card{border-radius:12px;overflow:hidden;background:white;box-shadow:var(--card-shadow);transform:translateY(18px);opacity:0;transition:transform .7s cubic-bezier(.2,.9,.2,1),opacity .7s ease}
     .case-card.visible{transform:none;opacity:1}
-    .case-thumb{height:180px;object-fit:cover;width:100%}
+    /* .case-thumb{height:180px;object-fit:cover;width:100%} */
+    .case-thumb {height: 180px;width: 100%;object-fit: contain}
     .case-body{padding:14px}
     .case-body h4{margin:0 0 8px}
     .case-body p{margin:0;color:var(--muted);font-size:14px}
@@ -270,7 +271,7 @@
       </div>
 
       <div class="case-card">
-        <img class="case-thumb" src="img_index/python_logo.jpg" alt="Case study 3 Python">
+        <img class="case-thumb" src="img_index/python_logo.jpg" alt="Case study 4 Python">
         <div class="case-body">
           <h4>Python</h4>
           <p>Custom made python data platform for cheap and easy start and prepared for later migration to e.g. cloud.</p>
