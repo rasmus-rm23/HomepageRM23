@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Redirect non-www to www
+RewriteCond %{HTTP_HOST} ^rm23\.dk [NC]
+RewriteRule ^(.*)$ https://www.rm23.dk/$1 [L,R=301]
